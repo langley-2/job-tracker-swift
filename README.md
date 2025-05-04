@@ -1,13 +1,13 @@
 # Job Tracker
 
-**Job Tracker** is a SwiftUI app I built to keep my job search organized. It helps me stay on top of every opportunity — from spotting a role to getting an offer (or not). The goal was to streamline the entire application process and give myself a clearer sense of progress and momentum.
+**Job Tracker** is a SwiftUI app I built to keep my job search organised. It helps me stay on top of every opportunity — from spotting a role to receiving an offer (or not). The goal was to streamline the entire application process and give myself a clearer sense of progress and direction.
 
 ## What It Does
 
 - Keeps all job applications in one place
 - Tracks the status of each role — from discovery to final outcome
 - Stores useful details like contacts, notes, and links
-- Shows visual indicators for quick status checks
+- Displays visual indicators for quick status checks
 - Offers contextual prompts based on where I’m up to with each role
 - Uses a clean tab-based layout for easy navigation
 
@@ -16,23 +16,23 @@
 Each job moves through defined stages:
 
 - **Discovered** – spotted a role worth exploring
-- **Researching** – checking out the company and role
-- **Outreach** – making contact with someone at the org
+- **Researching** – looking into the company and role
+- **Outreach** – making contact with someone at the organisation
 - **Applied** – application submitted
 - **Interviewing** – in active interview stages
 - **Offer** – received an offer
-- **Accepted** – took the offer
-- **Rejected** – got a no
-- **Closed** – process wrapped (e.g., job was filled, I lost interest, etc.)
+- **Accepted** – offer accepted
+- **Rejected** – unsuccessful application
+- **Closed** – process wrapped up (e.g. role filled, no longer interested)
 
 ## Job Detail Tracking
 
-Each job entry captures:
+Each job entry includes:
 
 - Job title
-- Company
+- Organisation name
 - URL to the listing
-- Key contact person (if any)
+- Contact person (if any)
 - Status flags (research, outreach, application)
 - Current stage
 - Notes field for anything relevant
@@ -42,20 +42,17 @@ Each job entry captures:
 - **SwiftUI** for the interface
 - **Swift 5**
 - **UserDefaults** for lightweight persistence (with plans to move to Core Data or SwiftData)
-- iOS 15.0+ compatible
+- Compatible with iOS 15.0 and above
 
 ## In Action
 
-The app uses color-coded indicators and subtle visual cues (like progress dots) to show where each application stands. From the detailed view, I can see exactly what needs to happen next — whether that’s researching the company more, sending a follow-up, or preparing for an interview.
+The app uses colour-coded indicators and subtle visual cues (like progress dots) to show where each application stands. The detailed view highlights what’s next — whether that’s researching the company, following up, or preparing for an interview.
 
-## What’s Next
+## In Development
 
-Some ideas I’ve scoped out for future iterations:
+I’m currently working on several enhancements, including:
 
-- iCloud sync so I can track across devices
-- Calendar integration to manage interviews
-- Uploads for resumes and cover letters
-- Automated reminders for deadlines
-- A stats dashboard to visualize overall progress
-- Smarter filtering and sorting
-
+- **AI-powered job discovery**, surfacing relevant roles based on skills, preferences, and history
+- **Smart autofill**, extracting job details automatically from URLs or job boards
+- Improved data storage using **Core Data or SwiftData**
+- Expanded guidance and in-app tips tailored to each stage of the application process
