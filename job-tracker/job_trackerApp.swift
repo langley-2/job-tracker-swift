@@ -1,32 +1,14 @@
-//
-//  job_trackerApp.swift
-//  job-tracker
-//
-//  Created by Langley Millard on 4/5/2025.
-//
-
 import SwiftUI
-import SwiftData
 
 @main
-struct job_trackerApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
+struct JobTrackerApp: App {
+    // Create a single shared instance of JobStore
+    @StateObject private var jobStore = JobStore()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(jobStore) // Pass it to the entire view hierarchy
         }
-        .modelContainer(sharedModelContainer)
     }
 }
