@@ -1,16 +1,10 @@
-//
-//  JobPreviewView.swift
-//  job-tracker
-//
-//  Created by Langley Millard on 5/5/2025.
-//
-
 import SwiftUI
 
 struct JobPreviewView: View {
     let job: Job
     @ObservedObject var jobStore: JobStore
     @Environment(\.presentationMode) var presentationMode
+    @State private var showingAlert = false  // Add this state variable
     
     var body: some View {
         ScrollView {
@@ -41,6 +35,19 @@ struct JobPreviewView: View {
                     .cornerRadius(8)
                 }
                 
+                // Description section - only shown if description exists
+                if let description = job.description, !description.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Description")
+                            .font(.headline)
+                        
+                        Text(description)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                    }
+                }
+                
                 Spacer()
                 
                 // Save button
@@ -61,18 +68,25 @@ struct JobPreviewView: View {
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
+        .alert(isPresented: $showingAlert) {  // Add the alert here
+            Alert(
+                title: Text("Job Saved"),
+                message: Text("This job has been added to your job list."),
+                dismissButton: .default(Text("OK")) {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            )
+        }
     }
     
     private func saveJobAsDiscovered() {
-        // Create a copy of the job with status set to "discovered"
-        let savedJob = job.updated(status: .discovered)
+        // Create a modified copy using the `updated()` method
+        let newJob = job.updated(status: .discovered)
         
         // Add to job store
-        jobStore.addJob(savedJob)
+        jobStore.addJob(newJob)
         
-        // Display success alert or notification (you could add this)
-        
-        // Dismiss the view
-        presentationMode.wrappedValue.dismiss()
+        // Show alert
+        showingAlert = true // Trigger the alert
     }
 }

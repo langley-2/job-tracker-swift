@@ -15,7 +15,7 @@ class JobStore: ObservableObject {
             Job(
                 jobTitle: "iOS Developer",
                 orgName: "Apple",
-                jobLink: "https://apple.com/careers",
+                jobLink: URL(string: "https://apple.com/careers"),
                 contactName: "Tim Cook",
                 isResearched: true,
                 hasReachedOut: true,

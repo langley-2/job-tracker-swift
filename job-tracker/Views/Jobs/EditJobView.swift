@@ -86,7 +86,7 @@ struct EditJobView: View {
             id: job.id,
             jobTitle: jobTitle,
             orgName: orgName,
-            jobLink: jobLink.isEmpty ? nil : jobLink,
+            jobLink: jobLink.isEmpty ? nil : URL(string: jobLink),
             contactName: contactName,
             isResearched: isResearched,
             hasReachedOut: hasReachedOut,

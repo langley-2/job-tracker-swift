@@ -105,6 +105,19 @@ struct JobDetailsSection: View {
                     Spacer()
                     Text(job.date, format: .dateTime.month().day().year())
                 }
+                
+                // Add description if it exists
+                if let description = job.description, !description.isEmpty {
+                    Divider()
+                        .padding(.vertical, 4)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Description:")
+                            .fontWeight(.medium)
+                        Text(description)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
             }
             .padding()
             .background(Color(.systemGray6))

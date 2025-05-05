@@ -1,8 +1,16 @@
+//
+//  JobBrowserView.swift
+//  job-tracker
+//
+//  Created by Langley Millard on 5/5/2025.
+//
+
 import SwiftUI
 
 struct JobBrowserView: View {
     @State private var searchQuery: String = ""
     @State private var jobs: [Job] = []
+    @ObservedObject var jobStore: JobStore
     
     var filteredJobs: [Job] {
         guard !searchQuery.isEmpty else { return jobs }
@@ -13,15 +21,16 @@ struct JobBrowserView: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                // Search Bar
-                TextField("Search jobs or companies", text: $searchQuery)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                // Job List
-                List(filteredJobs) { job in
+        // Removed NavigationView from here
+        VStack {
+            // Search Bar
+            TextField("Search jobs or companies", text: $searchQuery)
+                .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+            // Job List
+            List(filteredJobs) { job in
+                NavigationLink(destination: JobPreviewView(job: job, jobStore: jobStore)) {
                     VStack(alignment: .leading) {
                         Text(job.jobTitle)
                             .font(.headline)
@@ -36,21 +45,55 @@ struct JobBrowserView: View {
                     .padding(.vertical, 4)
                 }
             }
-            .navigationTitle("Browse Jobs")
-            .onAppear(perform: loadSampleJobs)
         }
+        .navigationTitle("Browse Jobs")
+        .onAppear(perform: loadSampleJobs)
     }
 
+
     private func loadSampleJobs() {
-        // Placeholder: you’d replace this with real API data or a JSON file
+        // These jobs represent external listings, not saved in your JobStore
         jobs = [
-            Job(jobTitle: "iOS Developer", orgName: "Tech Corp", jobLink: "https://example.com/job1"),
-            Job(jobTitle: "Frontend Engineer", orgName: "Webify", jobLink: "https://example.com/job2"),
-            Job(jobTitle: "Backend Developer", orgName: "ServerStack", jobLink: nil)
+            Job(
+                jobTitle: "Machine Learning Engineer",
+                orgName: "OpenAI",
+                jobLink: URL(string: "https://openai.com/careers/machine-learning-engineer"),
+                contactName: "Sam Altman",
+                description: "Build cutting-edge AI models and contribute to research that shapes the future of artificial intelligence."
+            ),
+            Job(
+                jobTitle: "Product Designer",
+                orgName: "Figma",
+                jobLink: URL(string: "https://www.figma.com/careers/product-designer"),
+                contactName: "Dylan Field",
+                description: "Design collaborative UI/UX tools that empower creators around the world to build visually stunning products."
+            ),
+            Job(
+                jobTitle: "Cloud Infrastructure Engineer",
+                orgName: "HashiCorp",
+                jobLink: URL(string: "https://www.hashicorp.com/careers/cloud-infrastructure-engineer"),
+                contactName: "Armon Dadgar",
+                description: "Maintain and scale infrastructure-as-code platforms like Terraform and Nomad for global cloud deployments."
+            ),
+            Job(
+                jobTitle: "Full Stack Developer",
+                orgName: "Canva",
+                jobLink: URL(string: "https://www.canva.com/careers/full-stack-developer"),
+                contactName: "Melanie Perkins",
+                description: "Develop frontend and backend systems for a design platform used by over 100 million users worldwide."
+            ),
+            Job(
+                jobTitle: "Security Analyst",
+                orgName: "Atlassian",
+                jobLink: URL(string: "https://www.atlassian.com/company/careers/security-analyst"),
+                contactName: "Scott Farquhar",
+                description: "Ensure the security and compliance of Jira and Confluence by monitoring threats and improving detection systems."
+            )
         ]
+
     }
 }
 
 #Preview {
-    JobBrowserView()
+    JobBrowserView(jobStore: JobStore())
 }

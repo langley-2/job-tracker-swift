@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatisticsView: View {
-    @StateObject private var jobStore = JobStore()
+    @ObservedObject var jobStore: JobStore
     
     var body: some View {
         NavigationView {
