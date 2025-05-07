@@ -11,7 +11,7 @@ struct StatisticsView: View {
     @ObservedObject var jobStore: JobStore
     
     var body: some View {
-        NavigationView {
+      
             List {
                 Section(header: Text("Application Summary")) {
                     HStack {
@@ -42,7 +42,7 @@ struct StatisticsView: View {
                     Text("Coming soon...")
                         .foregroundColor(.secondary)
                 }
-            }
+            
             .navigationTitle("Statistics")
         }
     }

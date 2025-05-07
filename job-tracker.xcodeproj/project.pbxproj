@@ -50,6 +50,11 @@
 			path = "job-trackerUITests";
 			sourceTree = "<group>";
 		};
+		B086C8B12DCB8B0C00CE998F /* images */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = images;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +85,7 @@
 		B086C84C2DC779F800CE998F = {
 			isa = PBXGroup;
 			children = (
+				B086C8B12DCB8B0C00CE998F /* images */,
 				B086C8572DC779F800CE998F /* job-tracker */,
 				B086C8672DC779FB00CE998F /* job-trackerTests */,
 				B086C8712DC779FB00CE998F /* job-trackerUITests */,
@@ -115,6 +121,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				B086C8572DC779F800CE998F /* job-tracker */,
+				B086C8B12DCB8B0C00CE998F /* images */,
 			);
 			name = "job-tracker";
 			packageProductDependencies = (

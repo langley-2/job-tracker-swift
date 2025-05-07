@@ -1,58 +1,75 @@
 # Job Tracker
 
-**Job Tracker** is a SwiftUI app I built to keep my job search organised. It helps me stay on top of every opportunity — from spotting a role to receiving an offer (or not). The goal was to streamline the entire application process and give myself a clearer sense of progress and direction.
+**Job Tracker** is a SwiftUI app designed to make job hunting less chaotic and more intentional. It helps users stay on top of every opportunity — from discovering a role to getting the final result. Whether you're actively applying or just keeping an eye out, Job Tracker brings structure and clarity to the process.
 
 ## What It Does
 
-- Keeps all job applications in one place
-- Tracks the status of each role — from discovery to final outcome
-- Stores useful details like contacts, notes, and links
-- Displays visual indicators for quick status checks
-- Offers contextual prompts based on where I’m up to with each role
-- Uses a clean tab-based layout for easy navigation
+- Keeps all job applications organised in one place
+- Tracks each role’s progress — from discovery to offer (or closure)
+- Stores useful details like contacts, notes, and URLs
+- Provides colour-coded status indicators for quick overviews
+- Suggests next actions based on where you're up to
+- Uses a clean, tab-based layout for intuitive navigation
+
+## Screenshots
+
+| Home | Detail | Edit |
+|------|--------|------|
+| ![Home](images/home.png) | ![Detail](images/detail.png) | ![Edit](images/edit.png) |
+
+| Stats | Update |
+|-------|--------|
+| ![Stats](images/stats.png) | ![Update](images/update.png) |
+
+_(Screenshots live in `images/` directory, grouped by screen)_
 
 ## Status Workflow
 
-Each job moves through defined stages:
+Each job moves through clearly defined stages:
 
-- **Discovered** – spotted a role worth exploring
-- **Researching** – looking into the company and role
-- **Outreach** – making contact with someone at the organisation
+- **Discovered** – role looks promising
+- **Researching** – investigating the company and position
+- **Outreach** – connecting with someone inside the org
 - **Applied** – application submitted
-- **Interviewing** – in active interview stages
+- **Interviewing** – in process
 - **Offer** – received an offer
 - **Accepted** – offer accepted
-- **Rejected** – unsuccessful application
-- **Closed** – process wrapped up (e.g. role filled, no longer interested)
+- **Rejected** – not moving forward
+- **Closed** – wrapped up (e.g. filled, withdrawn, no longer relevant)
 
-## Job Detail Tracking
+## What You Can Track
 
-Each job entry includes:
+Each entry includes:
 
 - Job title
 - Organisation name
 - URL to the listing
-- Contact person (if any)
-- Status flags (research, outreach, application)
-- Current stage
-- Notes field for anything relevant
+- Contact person (if applicable)
+- Flags for research, outreach, application
+- Current status/stage
+- Freeform notes
 
 ## Tech Stack
 
-- **SwiftUI** for the interface
+- **SwiftUI** for the frontend
 - **Swift 5**
-- **UserDefaults** for lightweight persistence (with plans to move to Core Data or SwiftData)
-- Compatible with iOS 15.0 and above
+- **UserDefaults** for lightweight persistence (Core Data or SwiftData support coming)
+- Runs on iOS 15+
 
 ## In Action
 
-The app uses colour-coded indicators and subtle visual cues (like progress dots) to show where each application stands. The detailed view highlights what’s next — whether that’s researching the company, following up, or preparing for an interview.
+Job Tracker provides a clear overview with status dots and colour cues. Users can easily drill into a job to see what’s next — whether it's researching, following up, or preparing for an interview.
 
-## In Development
+## Roadmap
 
-I’m currently working on several enhancements, including:
+Current development efforts are focused on:
 
-- **AI-powered job discovery**, surfacing relevant roles based on skills, preferences, and history
-- **Smart autofill**, extracting job details automatically from URLs or job boards
-- Improved data storage using **Core Data or SwiftData**
-- Expanded guidance and in-app tips tailored to each stage of the application process
+- **AI-powered job discovery** – surfacing roles based on user history and preferences
+- **Smart autofill** – extracting job details from URLs or job boards
+- Backend improvements using **Core Data or SwiftData**
+- Expanded in-app guidance tailored to each stage of the job hunt
+
+---
+
+Job Tracker aims to give users back control over their job search — with less stress, more visibility, and smarter tools to support the process.
+
