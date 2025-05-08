@@ -21,9 +21,10 @@
 |-------------|----------|-------|
 | ![Edit Dark](images/edit_dark.png) | ![Settings](images/settings.png) | ![Stats](images/stats.png) |
 
-| Update |
-|--------|
-| ![Update](images/update.png) |
+| Update | Role | Browse |
+|--------|------|--------|
+| ![Update](images/update.png) | ![Role](images/role.png) | ![Browse](images/browse.png) |
+
 
 _(Screenshots live in `images/` directory, grouped by screen)_
 
