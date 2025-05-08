@@ -13,17 +13,17 @@
 
 ## Screenshots
 
-| Home | Detail | Detail (Dark) |
-|------|--------|----------------|
-| ![Home](images/home.png) | ![Detail](images/detail.png) | ![Detail Dark](images/detail_dark.png) |
+| Home | Browse | Role |
+|------|--------|------|
+| ![Home](images/home.png) | ![Browse](images/browse.png) | ![Role](images/role.png) |
 
-| Edit (Dark) | Settings | Stats |
-|-------------|----------|-------|
-| ![Edit Dark](images/edit_dark.png) | ![Settings](images/settings.png) | ![Stats](images/stats.png) |
+| Detail | Detail (Dark) | Edit (Dark) |
+|--------|----------------|-------------|
+| ![Detail](images/detail.png) | ![Detail Dark](images/detail_dark.png) | ![Edit Dark](images/edit_dark.png) |
 
-| Update | Role | Browse |
-|--------|------|--------|
-| ![Update](images/update.png) | ![Role](images/role.png) | ![Browse](images/browse.png) |
+| Update | Stats | Settings |
+|--------|-------|----------|
+| ![Update](images/update.png) | ![Stats](images/stats.png) | ![Settings](images/settings.png) |
 
 
 _(Screenshots live in `images/` directory, grouped by screen)_
