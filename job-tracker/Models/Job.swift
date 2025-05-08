@@ -6,13 +6,14 @@ struct Job: Identifiable, Codable {
     let orgName: String
     let jobLink: URL?
     let contactName: String
-    let isResearched: Bool
-    let hasReachedOut: Bool
-    let hasApplied: Bool
+    let interestLevel: Int  // Changed from isResearched (Bool) to interestLevel (Int 0-3)
+    let hasReferral: Bool   // Changed from hasReachedOut to hasReferral
+    let deadlineDate: Date? // Changed from hasApplied (Bool) to deadlineDate (optional Date)
     let status: JobStatus
     let notes: String
     let date: Date
-    let description: String?  // Added optional description field
+    let description: String?
+    let daysInStatus: Int   // Added new parameter for tracking days in current status
 
     init(
         id: UUID = UUID(),
@@ -20,26 +21,28 @@ struct Job: Identifiable, Codable {
         orgName: String,
         jobLink: URL? = nil,
         contactName: String = "",
-        isResearched: Bool = false,
-        hasReachedOut: Bool = false,
-        hasApplied: Bool = false,
+        interestLevel: Int = 0,         // Changed from isResearched with default 0
+        hasReferral: Bool = false,      // Changed from hasReachedOut
+        deadlineDate: Date? = nil,      // Changed from hasApplied to optional Date
         status: JobStatus = .discovered,
         notes: String = "",
         date: Date = Date(),
-        description: String? = nil  // Added parameter with default value of nil
+        description: String? = nil,
+        daysInStatus: Int = 0           // Added with default value of 0
     ) {
         self.id = id
         self.jobTitle = jobTitle
         self.orgName = orgName
         self.jobLink = jobLink
         self.contactName = contactName
-        self.isResearched = isResearched
-        self.hasReachedOut = hasReachedOut
-        self.hasApplied = hasApplied
+        self.interestLevel = min(max(interestLevel, 0), 3)  // Ensure interest level is between 0-3
+        self.hasReferral = hasReferral
+        self.deadlineDate = deadlineDate
         self.status = status
         self.notes = notes
         self.date = date
-        self.description = description  // Initialize the new property
+        self.description = description
+        self.daysInStatus = daysInStatus
     }
 
     func updated(
@@ -47,12 +50,13 @@ struct Job: Identifiable, Codable {
         orgName: String? = nil,
         jobLink: URL? = nil,
         contactName: String? = nil,
-        isResearched: Bool? = nil,
-        hasReachedOut: Bool? = nil,
-        hasApplied: Bool? = nil,
+        interestLevel: Int? = nil,       // Changed from isResearched
+        hasReferral: Bool? = nil,        // Changed from hasReachedOut
+        deadlineDate: Date? = nil,       // Changed from hasApplied
         status: JobStatus? = nil,
         notes: String? = nil,
-        description: String? = nil  // Added parameter to updated method
+        description: String? = nil,
+        daysInStatus: Int? = nil         // Added parameter
     ) -> Job {
         return Job(
             id: self.id,
@@ -60,13 +64,14 @@ struct Job: Identifiable, Codable {
             orgName: orgName ?? self.orgName,
             jobLink: jobLink ?? self.jobLink,
             contactName: contactName ?? self.contactName,
-            isResearched: isResearched ?? self.isResearched,
-            hasReachedOut: hasReachedOut ?? self.hasReachedOut,
-            hasApplied: hasApplied ?? self.hasApplied,
+            interestLevel: interestLevel ?? self.interestLevel,
+            hasReferral: hasReferral ?? self.hasReferral,
+            deadlineDate: deadlineDate ?? self.deadlineDate,
             status: status ?? self.status,
             notes: notes ?? self.notes,
             date: self.date,
-            description: description ?? self.description  // Use existing description if not provided
+            description: description ?? self.description,
+            daysInStatus: daysInStatus ?? self.daysInStatus
         )
     }
 }

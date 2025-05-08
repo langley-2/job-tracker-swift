@@ -5,9 +5,52 @@ struct JobDetailView: View {
     @ObservedObject var jobStore: JobStore
     @State private var isEditing = false
     
+    // Helper function to determine status step index
+    private func statusStepIndex(_ status: JobStatus) -> Int {
+        switch status {
+        case .discovered: return 0
+        case .researching: return 1
+        case .outreach: return 2
+        case .applied: return 3
+        case .interviewing: return 4
+        case .offer: return 5
+        case .accepted, .rejected, .closed: return 6
+        }
+    }
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                // Status Progress Bar
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Application Progress")
+                        .font(.headline)
+                    
+                    // Current Status Only
+                    HStack {
+                        Text(job.status.rawValue)
+                            .font(.headline)
+                            .foregroundColor(.green)
+                        
+                        Spacer()
+                        
+                        Text("(\(job.daysInStatus) days)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    // Current Status Indicator
+                    HStack(spacing: 8) {
+                        ForEach(0..<7) { step in
+                            Circle()
+                                .fill(step <= statusStepIndex(job.status) ? Color.green : Color.gray.opacity(0.3))
+                                .frame(width: 8, height: 8)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+                .padding(.bottom)
+                
                 // Header info
                 VStack(alignment: .leading, spacing: 8) {
                     Text(job.jobTitle)
@@ -16,46 +59,117 @@ struct JobDetailView: View {
                     
                     Text(job.orgName)
                         .font(.title2)
-                    
-                    HStack {
-                        Image(systemName: job.status.systemImage)
-                            .foregroundColor(job.status.color)
-                        Text(job.status.rawValue)
-                            .foregroundColor(job.status.color)
-                    }
-                    .font(.headline)
-                    .padding(.top, 4)
                 }
                 .padding(.bottom)
                 
-                // Job details section
-                Group {
-                    JobDetailsSection(job: job)
+                // Combined Job Details & Application Tracking
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Job Information")
+                        .font(.headline)
                     
-                    Divider()
-                    
-                    ProgressSection(job: job, jobStore: jobStore)
-                    
-                    Divider()
-                    
-                    // Notes section
-                    if !job.notes.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Notes")
-                                .font(.headline)
-                            
-                            Text(job.notes)
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
+                    VStack(alignment: .leading, spacing: 16) {
+                        // Contact info
+                        if !job.contactName.isEmpty {
+                            HStack {
+                                Text("Contact:")
+                                Spacer()
+                                Text(job.contactName)
+                            }
                         }
                         
-                        Divider()
+                        // Job Link
+                        if let jobLink = job.jobLink {
+                            HStack {
+                                Text("Job Link:")
+                                Spacer()
+                                Link(jobLink.absoluteString, destination: jobLink)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                            }
+                        }
+                        
+                        // Added date
+                        HStack {
+                            Text("Added:")
+                            Spacer()
+                            Text(job.date, format: .dateTime.month().day().year())
+                        }
+                        
+                        // Deadline (simplified timeline)
+                        if let deadline = job.deadlineDate {
+                            HStack {
+                                Text("Deadline:")
+                                Spacer()
+                                Text(deadline, format: .dateTime.month().day().year())
+                                Text(isPastDeadline(deadline) ? "(Passed)" : "")
+                                    .foregroundColor(isPastDeadline(deadline) ? .red : .primary)
+                            }
+                        }
+                        
+                        // Interest Level with circles
+                        HStack {
+                            Text("Interest Level:")
+                            Spacer()
+                            HStack(spacing: 4) {
+                                ForEach(0..<4) { level in
+                                    Circle()
+                                        .fill(level <= job.interestLevel ? Color.green : Color.gray.opacity(0.3))
+                                        .frame(width: 8, height: 8)
+                                }
+                            }
+                        }
+                        
+                        // Simplified Referral Status
+                        if job.hasReferral {
+                            HStack {
+                                Text("Referral:")
+                                Spacer()
+                                Circle()
+                                    .fill(Color.green)
+                                    .frame(width: 8, height: 8)
+                                if !job.contactName.isEmpty {
+                                    Text(job.contactName)
+                                }
+                            }
+                        }
+                        
+                        // Add description if it exists
+                        if let description = job.description, !description.isEmpty {
+                            Divider()
+                                .padding(.vertical, 4)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Description:")
+                                    .fontWeight(.medium)
+                                Text(description)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                }
+                
+                Divider()
+                
+                // Notes section
+                if !job.notes.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Notes")
+                            .font(.headline)
+                        
+                        Text(job.notes)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
                     }
                     
-                    // Status-specific view
-                    StatusSpecificView(job: job, jobStore: jobStore)
+                    Divider()
                 }
+                
+                // Status-specific view
+                StatusSpecificView(job: job, jobStore: jobStore)
             }
             .padding()
         }
@@ -71,124 +185,9 @@ struct JobDetailView: View {
             EditJobView(job: job, jobStore: jobStore, isPresented: $isEditing)
         }
     }
-}
-
-struct JobDetailsSection: View {
-    let job: Job
     
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Job Details")
-                .font(.headline)
-            
-            VStack(alignment: .leading, spacing: 8) {
-                if !job.contactName.isEmpty {
-                    HStack {
-                        Text("Contact:")
-                        Spacer()
-                        Text(job.contactName)
-                    }
-                }
-                
-                if let jobLink = job.jobLink {
-                    HStack {
-                        Text("Job Link:")
-                        Spacer()
-                        Link(jobLink.absoluteString, destination: jobLink)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                    }
-                }
-                
-                HStack {
-                    Text("Added:")
-                    Spacer()
-                    Text(job.date, format: .dateTime.month().day().year())
-                }
-                
-                // Add description if it exists
-                if let description = job.description, !description.isEmpty {
-                    Divider()
-                        .padding(.vertical, 4)
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Description:")
-                            .fontWeight(.medium)
-                        Text(description)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                }
-            }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(8)
-        }
-    }
-}
-
-struct ProgressSection: View {
-    let job: Job
-    @ObservedObject var jobStore: JobStore
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Progress")
-                .font(.headline)
-            
-            VStack(spacing: 4) {
-                ProgressRow(
-                    title: "Research",
-                    isCompleted: job.isResearched,
-                    action: {
-                        let updatedJob = job.updated(isResearched: !job.isResearched)
-                        jobStore.updateJob(updatedJob)
-                    }
-                )
-                
-                ProgressRow(
-                    title: "Reached Out",
-                    isCompleted: job.hasReachedOut,
-                    action: {
-                        let updatedJob = job.updated(hasReachedOut: !job.hasReachedOut)
-                        jobStore.updateJob(updatedJob)
-                    }
-                )
-                
-                ProgressRow(
-                    title: "Applied",
-                    isCompleted: job.hasApplied,
-                    action: {
-                        let updatedJob = job.updated(hasApplied: !job.hasApplied)
-                        jobStore.updateJob(updatedJob)
-                    }
-                )
-            }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(8)
-        }
-    }
-}
-
-struct ProgressRow: View {
-    let title: String
-    let isCompleted: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            HStack {
-                Image(systemName: isCompleted ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(isCompleted ? .green : .gray)
-                Text(title)
-                Spacer()
-                Text(isCompleted ? "Completed" : "Pending")
-                    .font(.caption)
-                    .foregroundColor(isCompleted ? .green : .gray)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .padding(.vertical, 8)
+    // Helper to check if a deadline has passed
+    private func isPastDeadline(_ date: Date) -> Bool {
+        return date < Date()
     }
 }

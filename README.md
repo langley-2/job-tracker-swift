@@ -13,13 +13,17 @@
 
 ## Screenshots
 
-| Home | Detail | Edit |
-|------|--------|------|
-| ![Home](images/home.png) | ![Detail](images/detail.png) | ![Edit](images/edit.png) |
+| Home | Detail | Detail (Dark) |
+|------|--------|----------------|
+| ![Home](images/home.png) | ![Detail](images/detail.png) | ![Detail Dark](images/detail_dark.png) |
 
-| Stats | Update |
-|-------|--------|
-| ![Stats](images/stats.png) | ![Update](images/update.png) |
+| Edit (Dark) | Settings | Stats |
+|-------------|----------|-------|
+| ![Edit Dark](images/edit_dark.png) | ![Settings](images/settings.png) | ![Stats](images/stats.png) |
+
+| Update |
+|--------|
+| ![Update](images/update.png) |
 
 _(Screenshots live in `images/` directory, grouped by screen)_
 
@@ -72,4 +76,3 @@ Current development efforts are focused on:
 ---
 
 Job Tracker aims to give users back control over their job search — with less stress, more visibility, and smarter tools to support the process.
-
